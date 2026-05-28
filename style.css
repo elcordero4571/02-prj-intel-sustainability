@@ -19,7 +19,6 @@
 /* SMOOTH SCROLL */
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
 }
 
 body {
@@ -42,7 +41,7 @@ body {
   color: var(--text);
   line-height: 1.7;
 
-  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 /* Images */
@@ -55,8 +54,6 @@ img {
 
 .hero {
   min-height: 100vh;
-
-  scroll-snap-align: start;
 
   display: flex;
   flex-direction: column;
@@ -114,7 +111,7 @@ main {
 }
 
 .timeline-section {
-  max-width: 950px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -128,44 +125,57 @@ main {
   color: var(--muted);
 }
 
-/* TIMELINE */
+/* ================================= */
+/* HORIZONTAL TIMELINE */
+/* ================================= */
 
 .timeline {
   position: relative;
 
-  margin-top: 3rem;
+  display: flex;
 
-  padding-left: 1.5rem;
+  gap: 2rem;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-snap-type: x mandatory;
+
+  padding: 2rem 1rem 3rem;
+
+  scrollbar-width: thin;
 }
+
+/* HORIZONTAL LINE */
 
 .timeline::before {
   content: "";
 
   position: absolute;
 
-  left: 1rem;
-  top: 0;
-  bottom: 0;
+  top: 50%;
+  left: 0;
+  right: 0;
 
-  width: 4px;
+  height: 4px;
 
   background: var(--accent-soft);
+
+  transform: translateY(-50%);
 
   border-radius: 999px;
 }
 
+/* TIMELINE ITEMS */
+
 .timeline-item {
   position: relative;
 
-  margin-bottom: 4rem;
-
-  padding-left: 2.8rem;
+  flex: 0 0 420px;
 
   scroll-snap-align: center;
-}
 
-.timeline-item:last-child {
-  margin-bottom: 0;
+  z-index: 2;
 }
 
 /* YEAR CIRCLE */
@@ -173,8 +183,8 @@ main {
 .timeline-year {
   position: absolute;
 
-  left: -1rem;
-  top: 0;
+  top: -1rem;
+  left: 1rem;
 
   width: 3.5rem;
   height: 3.5rem;
@@ -191,6 +201,8 @@ main {
   border-radius: 50%;
 
   font-weight: 700;
+
+  z-index: 10;
 
   box-shadow:
     0 10px 25px rgba(0, 0, 0, 0.25);
@@ -345,40 +357,60 @@ main {
 
 /* SCROLLBAR */
 
-::-webkit-scrollbar {
-  width: 10px;
+.timeline::-webkit-scrollbar {
+  height: 10px;
 }
 
-::-webkit-scrollbar-track {
+.timeline::-webkit-scrollbar-track {
   background: #052922;
+  border-radius: 999px;
 }
 
-::-webkit-scrollbar-thumb {
+.timeline::-webkit-scrollbar-thumb {
   background: var(--accent);
   border-radius: 999px;
 }
 
-/* DESKTOP */
+/* ================================= */
+/* MOBILE STACKED TIMELINE */
+/* ================================= */
 
-@media (min-width: 720px) {
+@media (max-width: 768px) {
 
   .timeline {
-    padding-left: 2.5rem;
+    display: block;
+
+    overflow: visible;
+
+    padding-left: 1.5rem;
+  }
+
+  /* VERTICAL LINE */
+
+  .timeline::before {
+    top: 0;
+    bottom: 0;
+    left: 1rem;
+    right: auto;
+
+    width: 4px;
+    height: auto;
+
+    transform: none;
   }
 
   .timeline-item {
-    padding-left: 4rem;
+    margin-bottom: 3rem;
+
+    padding-left: 2.8rem;
+
+    width: 100%;
   }
 
   .timeline-year {
-    left: -1.3rem;
+    left: -1rem;
+    top: 0;
   }
-
-}
-
-/* MOBILE */
-
-@media (max-width: 640px) {
 
   .hero {
     min-height: auto;
